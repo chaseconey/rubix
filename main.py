@@ -5,11 +5,15 @@ import re
 #letters = raw_input("Enter your letters: ");
 letters = 'vtlarxrz'
 
+# Format regex for 0-1 uses of each letter
+regex = ''
+for char in letters:
+  regex += char + '?'
+
+m = re.compile('^' + regex.lower() + '$')
+
 # Read in word list
 words = [line.strip() for line in open('enable1.txt')]
-
-
-m = re.compile('^[' + letters.lower() + ']+$')
 
 # Create a storage area for sorting words by size
 sortedDict = {}
