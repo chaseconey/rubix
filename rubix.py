@@ -20,6 +20,7 @@ sortedLetters = ''
 parser = argparse.ArgumentParser(description='Generate list of valid Words With Friends words from given letters.')
 
 parser.add_argument("letters", help="List of letters to lookup words by.")
+parser.add_argument("-n", "--need", help="Letter that MUST be included.", default='')
 parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
 
 args = parser.parse_args()
@@ -36,6 +37,11 @@ words = [line.strip() for line in open('enable1.txt')]
 # Find words that match the letters given
 for word in words:
   if m.match(word) is not None:
+
+    # Check that the letter that is required is in the string
+    if args.need and args.need not in word:
+      continue
+
     wordLen = len(word)
     # Make sure the key of dict exists
     if wordLen not in sortedDict:
