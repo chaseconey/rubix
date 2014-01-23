@@ -20,14 +20,14 @@ sortedLetters = ''
 parser = argparse.ArgumentParser(description='Generate list of valid Words With Friends words from given letters.')
 
 parser.add_argument("letters", help="List of letters to lookup words by.")
-parser.add_argument("-n", "--need", help="Letter that MUST be included.", default='')
+parser.add_argument("-p", "--pivot", help="Letter that MUST be included.", default='')
 parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
 
 args = parser.parse_args()
 
 sortedLetters = ''.join(sorted(args.letters))
 
-regex = '^[' + args.letters.lower() + ']+$'
+regex = '^[' + args.letters.lower() + args.pivot.lower() + ']+$'
 
 m = re.compile(regex)
 
@@ -39,7 +39,7 @@ for word in words:
   if m.match(word) is not None:
 
     # Check that the letter that is required is in the string
-    if args.need and args.need not in word:
+    if args.pivot and args.pivot not in word:
       continue
 
     wordLen = len(word)
