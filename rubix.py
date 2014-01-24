@@ -18,17 +18,14 @@ sortedLetters = ''
 
 # Setup argument parsing
 parser = argparse.ArgumentParser(description='Generate list of valid Words With Friends words from given letters.')
-
 parser.add_argument("letters", help="List of letters to lookup words by.")
 parser.add_argument("-p", "--pivot", help="Letter that MUST be included.", default='')
 parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-
 args = parser.parse_args()
 
 sortedLetters = ''.join(sorted(args.letters + args.pivot.lower()))
 
 regex = '^[' + args.letters.lower() + args.pivot.lower() + ']+$'
-
 m = re.compile(regex)
 
 # Read in word list
@@ -37,19 +34,6 @@ words = [line.strip() for line in open('enable1.txt')]
 # Find words that match the letters given
 for word in words:
   if m.match(word) is not None:
-
-    sortedWord = ''.join(sorted(word))
-
-    # Because our regex allows for having multiple of a letter that is given, let's check that they didn't overuse
-    # the letters allowed using another very simple regex function
-    letterCheckRegex = ''
-    for letter in sortedWord:
-      letterCheckRegex += letter + '?'
-
-    check = re.compile('(' + letterCheckRegex + ')')
-
-    if check.match(sortedLetters) is None:
-      continue
 
     # Check that the letter that is required is in the string
     if args.pivot and args.pivot not in word:
